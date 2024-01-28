@@ -37,7 +37,7 @@ void process_op(char buf[2])
             arg_buf[0] = buf[0];
             arg_buf[1] = buf[1];
             load_op();
-            fprintf(output, "%x %c%c\tLXI B,D16", instruction_counter, buf[0], buf[1]);
+            fprintf(output, "%x %c%c %c%c %c%c\tLXI B,#%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '2':
             fprintf(output, "%x %c%c\tSTAX B", instruction_counter, buf[0], buf[1]);
@@ -52,8 +52,10 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tDCR B", instruction_counter, buf[0], buf[1]);
             break;
         case '6':
-            fprintf(output, "%x %c%c\tMVI B, D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tMVI B,#%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case '7':
             fprintf(output, "%x %c%c\tRLC", instruction_counter, buf[0], buf[1]);
@@ -77,8 +79,10 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tDCR C", instruction_counter, buf[0], buf[1]);
             break;
         case 'e':
-            fprintf(output, "%x %c%c\tMVI C,D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tMVI C,#%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[0], buf[0], buf[0]);
             break;
         case 'f':
             fprintf(output, "%x %c%c\tRRC", instruction_counter, buf[0], buf[1]);
@@ -92,9 +96,13 @@ void process_op(char buf[2])
             // unallocated
             break;
         case '1':
-            fprintf(output, "%x %c%c\tLXI D,D16", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tLXI D,#%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '2':
             fprintf(output, "%x %c%c\tSTAX D", instruction_counter, buf[0], buf[1]);
@@ -109,8 +117,10 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tDCR D", instruction_counter, buf[0], buf[1]);
             break;
         case '6':
-            fprintf(output, "%x %c%c\tMVI D, D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tMVI D,#%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case '7':
             fprintf(output, "%x %c%c\tRAL", instruction_counter, buf[0], buf[1]);
@@ -134,8 +144,10 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tDCR E", instruction_counter, buf[0], buf[1]);
             break;
         case 'e':
-            fprintf(output, "%x %c%c\tMVI E,D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tMVI E,#%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case 'f':
             fprintf(output, "%x %c%c\tRAR", instruction_counter, buf[0], buf[1]);
@@ -149,14 +161,22 @@ void process_op(char buf[2])
             // unallocated
             break;
         case '1':
-            fprintf(output, "%x %c%c\tLXI H,D16", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tLXI H,#%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '2':
-            fprintf(output, "%x %c%c\tSHLD adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tSHLD $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '3':
             fprintf(output, "%x %c%c\tINX H", instruction_counter, buf[0], buf[1]);
@@ -168,8 +188,10 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tDCR H", instruction_counter, buf[0], buf[1]);
             break;
         case '6':
-            fprintf(output, "%x %c%c\tMVI H, D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[0];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tMVI H,#%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case '7':
             fprintf(output, "%x %c%c\tDAA", instruction_counter, buf[0], buf[1]);
@@ -181,9 +203,13 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tDAD H", instruction_counter, buf[0], buf[1]);
             break;
         case 'a':
-            fprintf(output, "%x %c%c\tLHLD adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tLHLD $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case 'b':
             fprintf(output, "%x %c%c\tDCX H", instruction_counter, buf[0], buf[1]);
@@ -195,8 +221,10 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tDCR L", instruction_counter, buf[0], buf[1]);
             break;
         case 'e':
-            fprintf(output, "%x %c%c\tMVI L,D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tMVI L,#%c%c", instruction_counter, op_buf[1], op_buf[1], buf[0], buf[1]);
             break;
         case 'f':
             fprintf(output, "%x %c%c\tCMA", instruction_counter, buf[0], buf[1]);
@@ -210,14 +238,22 @@ void process_op(char buf[2])
             // unallocated
             break;
         case '1':
-            fprintf(output, "%x %c%c\tLXI SP,D16", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tLXI SP,#%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '2':
-            fprintf(output, "%x %c%c\tSTA adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tSTA adr", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '3':
             fprintf(output, "%x %c%c\tINX SP", instruction_counter, buf[0], buf[1]);
@@ -229,8 +265,10 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tDCR M", instruction_counter, buf[0], buf[1]);
             break;
         case '6':
-            fprintf(output, "%x %c%c\tMVI M, D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tMVI M, D8", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case '7':
             fprintf(output, "%x %c%c\tSTC", instruction_counter, buf[0], buf[1]);
@@ -242,9 +280,13 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tDAD SP", instruction_counter, buf[0], buf[1]);
             break;
         case 'a':
-            fprintf(output, "%x %c%c\tLDA adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tLDA adr", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case 'b':
             fprintf(output, "%x %c%c\tDCX SP", instruction_counter, buf[0], buf[1]);
@@ -256,8 +298,10 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tDCR A", instruction_counter, buf[0], buf[1]);
             break;
         case 'e':
-            fprintf(output, "%x %c%c\tMVI A,D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tMVI A,D8", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case 'f':
             fprintf(output, "%x %c%c\tCMC", instruction_counter, buf[0], buf[1]);
@@ -698,26 +742,40 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tPOP B", instruction_counter, buf[0], buf[1]);
             break;
         case '2':
-            fprintf(output, "%x %c%c\tJNZ adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tJNZ $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '3':
-            fprintf(output, "%x %c%c\tJMP adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tJMP $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '4':
             fprintf(output, "%x %c%c\tORA H", instruction_counter, buf[0], buf[1]);
             break;
         case '5':
-            fprintf(output, "%x %c%c\tCNZ adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tCNZ $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '6':
-            fprintf(output, "%x %c%c\tADI D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tADI #%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case '7':
             fprintf(output, "%x %c%c\tRST 0", instruction_counter, buf[0], buf[1]);
@@ -729,26 +787,40 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tRET", instruction_counter, buf[0], buf[1]);
             break;
         case 'a':
-            fprintf(output, "%x %c%c\tLZ adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tLZ $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case 'b':
             // unallocated
             break;
         case 'c':
-            fprintf(output, "%x %c%c\tCZ adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tCZ $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case 'd':
-            fprintf(output, "%x %c%c\tCALL adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tCALL $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case 'e':
-            fprintf(output, "%x %c%c\tACI D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tACI #%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case 'f':
             fprintf(output, "%x %c%c\tRST 1", instruction_counter, buf[0], buf[1]);
@@ -765,25 +837,37 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tPOP D", instruction_counter, buf[0], buf[1]);
             break;
         case '2':
-            fprintf(output, "%x %c%c\tJNC adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tJNC $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '3':
-            fprintf(output, "%x %c%c\tOUT D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tOUT #%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case '4':
-            fprintf(output, "%x %c%c\tCNC adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tCNC $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '5':
             fprintf(output, "%x %c%c\tPUSH D", instruction_counter, buf[0], buf[1]);
             break;
         case '6':
-            fprintf(output, "%x %c%c\tSUI D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tSUI #%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case '7':
             fprintf(output, "%x %c%c\tRST 2", instruction_counter, buf[0], buf[1]);
@@ -795,25 +879,37 @@ void process_op(char buf[2])
             // unallocated
             break;
         case 'a':
-            fprintf(output, "%x %c%c\tJC adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tJC $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case 'b':
-            fprintf(output, "%x %c%c\tIN D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tIN #%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case 'c':
-            fprintf(output, "%x %c%c\tCC adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tCC $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case 'd':
             // unallocated
             break;
         case 'e':
-            fprintf(output, "%x %c%c\tSBI D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tSBI #%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case 'f':
             fprintf(output, "%x %c%c\tRST 3", instruction_counter, buf[0], buf[1]);
@@ -830,24 +926,34 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tPOP H", instruction_counter, buf[0], buf[1]);
             break;
         case '2':
-            fprintf(output, "%x %c%c\tJPO adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tJPO $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '3':
             fprintf(output, "%x %c%c\tXTHL", instruction_counter, buf[0], buf[1]);
             break;
         case '4':
-            fprintf(output, "%x %c%c\tCPO adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tCPO $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '5':
             fprintf(output, "%x %c%c\tPUSH H", instruction_counter, buf[0], buf[1]);
             break;
         case '6':
-            fprintf(output, "%x %c%c\tANI D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tANI #%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case '7':
             fprintf(output, "%x %c%c\tRST 4", instruction_counter, buf[0], buf[1]);
@@ -859,25 +965,37 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tPHCL", instruction_counter, buf[0], buf[1]);
             break;
         case 'a':
-            fprintf(output, "%x %c%c\tJPE adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tJPE $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case 'b':
-            fprintf(output, "%x %c%c\tXCHG", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tXCHG", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case 'c':
-            fprintf(output, "%x %c%c\tCPE adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tCPE $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case 'd':
             // unallocated
             break;
         case 'e':
-            fprintf(output, "%x %c%c\tXRI D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tXRI #%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case 'f':
             fprintf(output, "%x %c%c\tRST 5", instruction_counter, buf[0], buf[1]);
@@ -894,24 +1012,34 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tPOP PSW", instruction_counter, buf[0], buf[1]);
             break;
         case '2':
-            fprintf(output, "%x %c%c\tJP adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tJP $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '3':
             fprintf(output, "%x %c%c\tDI", instruction_counter, buf[0], buf[1]);
             break;
         case '4':
-            fprintf(output, "%x %c%c\tCP adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tCP $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case '5':
             fprintf(output, "%x %c%c\tPUSH PSW", instruction_counter, buf[0], buf[1]);
             break;
         case '6':
-            fprintf(output, "%x %c%c\tORI D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tORI #%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case '7':
             fprintf(output, "%x %c%c\tRST 6", instruction_counter, buf[0], buf[1]);
@@ -923,24 +1051,34 @@ void process_op(char buf[2])
             fprintf(output, "%x %c%c\tSPHL", instruction_counter, buf[0], buf[1]);
             break;
         case 'a':
-            fprintf(output, "%x %c%c\tJM adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tJM $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case 'b':
             fprintf(output, "%x %c%c\tEI", instruction_counter, buf[0], buf[1]);
             break;
         case 'c':
-            fprintf(output, "%x %c%c\tCM adr", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            arg_buf[0] = buf[0];
+            arg_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c %c%c\tCM $%c%c%c%c", instruction_counter, op_buf[0], op_buf[1], arg_buf[0], arg_buf[1], buf[0], buf[1], buf[0], buf[1], arg_buf[0], arg_buf[1]);
             break;
         case 'd':
             // unallocated
             break;
         case 'e':
-            fprintf(output, "%x %c%c\tCPI D8", instruction_counter, buf[0], buf[1]);
+            op_buf[0] = buf[0];
+            op_buf[1] = buf[1];
             load_op();
+            fprintf(output, "%x %c%c %c%c\tCPI #%c%c", instruction_counter, op_buf[0], op_buf[1], buf[0], buf[1], buf[0], buf[1]);
             break;
         case 'f':
             fprintf(output, "%x %c%c\tRST 7", instruction_counter, buf[0], buf[1]);
@@ -1006,7 +1144,9 @@ void dissassemble(char *file_name)
         if (ret_val == 1)
         {
             break;
-        } else if (ret_val == 3) {
+        }
+        else if (ret_val == 3)
+        {
             process_op(buf);
             buf[0] = '*';
         }
